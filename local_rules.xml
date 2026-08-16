@@ -1,0 +1,22 @@
+<group name="local,syslog,audit,">
+
+  <!--
+    Rule 101400 - /etc/passwd Enumeration (Local Account Discovery)
+    Detects a read of /etc/passwd, which an attacker may enumerate to identify
+    local accounts for further targeting.
+
+    DEPENDENCY: Requires a dedicated  auditd watch rule:
+      -w /etc/passwd -p r -k passwd_enum
+    and Wazuh configured to read /var/log/audit/audit.log.
+  -->
+  <rule id="101400" level="7">
+    <if_sid>80700</if_sid>
+    <field name="audit.key">passwd_enum</field>
+    <description>Possible reconnaissance: /etc/passwd (local account enumeration)</description>
+    <mitre>
+      <id>T1087.001</id>
+    </mitre>
+    <group>discovery,pci_dss_10.2.7,</group>
+  </rule>
+
+</group>
